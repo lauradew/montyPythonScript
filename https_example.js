@@ -7,14 +7,28 @@ var options = {
   path: '/'
 };
 
-// called by https when the request is made.
-var callback = function(response) {
-  console.log('In response handler callback!');
-  console.log('Response: ', response);
-}
+
 
 console.log("I'm about to make the request!");
 
-https.request(options, callback).end();
+// called by https when the request is made.
 
-console.log("I've made the request!");
+//shows incoming stream
+// var callback = function(response) {
+//   console.log('In response handler callback!');
+//   console.log('Response: ', response);
+// }
+
+//calls for outputting data
+var callback = function(response) {
+  console.log("I've made the request!");
+  console.log('In response handler callback!');
+
+  response.on('data', function(chunk) {
+    console.log('[-- CHUNK OF LENGTH ' + chunk.length + ' --]');
+    console.log(chunk.toString());
+  });
+}
+
+
+https.request(options, callback).end();
